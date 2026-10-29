@@ -1,0 +1,29 @@
+{
+  "description": "Default Indian FinTech Architecture Topology for Blast-Radius Engine",
+  "services": [
+    "staging-pod",
+    "checkout",
+    "payment-gateway",
+    "user-service",
+    "inventory"
+  ],
+  "databases": [
+    "upi-ledger",
+    "aadhaar-vault",
+    "user-db"
+  ],
+  "buckets": [
+    "secrets-store",
+    "backup-bucket"
+  ],
+  "tokens": [
+    "dev-token-001",
+    "svc-token-payment",
+    "svc-token-inventory"
+  ],
+  "crown_jewels": [
+    "db:upi-ledger",
+    "db:aadhaar-vault",
+    "svc:payment-gateway"
+  ]
+}
