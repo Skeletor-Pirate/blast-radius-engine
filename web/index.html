@@ -3,173 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blast-Radius Engine | FinTech Cyber Incident Command Center</title>
+  <title>Blast-Radius Containment Engine | Sovereign FinTech Cyber Command Center</title>
+  
+  <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #07090e;
-      --bg-surface: #0e131f;
-      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg: #05070c;
+      --bg-surface: #0a0e17;
+      --bg-card: rgba(13, 19, 32, 0.75);
+      --bg-card-hover: rgba(18, 26, 44, 0.85);
       --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(0, 210, 255, 0.3);
-      --text: #f1f5f9;
+      --border-accent: rgba(0, 240, 255, 0.35);
+      --text: #f8fafc;
       --text-muted: #94a3b8;
-      --cyan: #00d2ff;
-      --cyan-glow: rgba(0, 210, 255, 0.35);
-      --red: #ff3366;
-      --red-glow: rgba(255, 51, 102, 0.4);
-      --amber: #f59e0b;
-      --emerald: #10b981;
-      --purple: #8b5cf6;
+      --text-dim: #64748b;
+      
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.4);
+      --red: #ff2a6d;
+      --red-glow: rgba(255, 42, 109, 0.4);
+      --emerald: #05ffa1;
+      --emerald-glow: rgba(5, 255, 161, 0.4);
+      --amber: #ffb703;
+      --amber-glow: rgba(255, 183, 3, 0.4);
+      --purple: #9d4edd;
+      
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Outfit', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(0, 210, 255, 0.06) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(255, 51, 102, 0.05) 0%, transparent 40%);
+        radial-gradient(circle at 12% 18%, rgba(0, 240, 255, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 88% 82%, rgba(255, 42, 109, 0.04) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(5, 7, 12, 0.6), rgba(5, 7, 12, 0.95));
+      background-attachment: fixed;
     }
 
-    /* Top Nav */
+    /* Ambient scanline HUD grid */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Header Nav */
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 32px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(7, 9, 14, 0.85);
-      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 36px;
+      background: rgba(5, 7, 12, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
+
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
-    .brand-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #ff3366, #ff758c);
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--red), #800020);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px var(--red-glow);
+      box-shadow: 0 0 25px var(--red-glow);
+      position: relative;
     }
-    .brand-title {
-      font-size: 18px;
+    .brand-logo svg {
+      width: 22px;
+      height: 22px;
+      stroke: #fff;
+    }
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-main {
+      font-family: var(--font-display);
+      font-size: 19px;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .brand-subtitle {
-      font-size: 11px;
+    .version-tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--border-accent);
       color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      font-family: var(--font-mono);
       font-weight: 600;
     }
-    .nav-badges {
-      display: flex;
-      gap: 12px;
-      align-items: center;
+    .brand-sub {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
     }
-    .badge {
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
+      gap: 8px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.03);
     }
-    .badge-live {
-      border-color: rgba(16, 185, 129, 0.3);
+    .status-pill.active {
+      border-color: rgba(5, 255, 161, 0.35);
       color: var(--emerald);
     }
-    .badge-live::before {
-      content: '';
+    .status-pill.active::before {
+      content: "";
       width: 6px;
       height: 6px;
-      background: var(--emerald);
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--emerald);
-      animation: pulse 1.5s infinite;
-    }
-    .badge-mandate {
-      border-color: rgba(0, 210, 255, 0.3);
-      color: var(--cyan);
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 1.6s infinite;
     }
 
-    /* Layout */
-    .container {
-      padding: 24px 32px;
-      max-width: 1700px;
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 1720px;
       margin: 0 auto;
+      padding: 24px 36px;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Metric Cards Grid */
-    .metrics-grid {
+    /* Scenario Bar */
+    .scenario-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+    }
+    .scenario-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .scenario-title strong {
+      color: #fff;
+    }
+    .scenario-pills {
+      display: flex;
+      gap: 8px;
+    }
+    .scenario-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .scenario-btn:hover {
+      background: rgba(0, 240, 255, 0.08);
+      color: #fff;
+      border-color: var(--border-accent);
+    }
+    .scenario-btn.active {
+      background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(255, 42, 109, 0.05));
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 42, 109, 0.25);
+    }
+
+    /* KPI Metrics Bento Grid */
+    .kpi-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
-    .metric-card {
+    .kpi-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
-      padding: 18px 20px;
+      border-radius: 14px;
+      padding: 18px 22px;
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s var(--ease-spring);
     }
-    .metric-card:hover {
+    .kpi-card:hover {
       border-color: var(--border-accent);
       transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
-    .metric-card::before {
-      content: '';
+    .kpi-card::before {
+      content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 2px;
       background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      opacity: 0.5;
+      opacity: 0.4;
     }
-    .metric-label {
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .kpi-label {
       font-size: 11px;
-      color: var(--text-muted);
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
-      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
     }
-    .metric-value {
-      font-size: 24px;
+    .kpi-value {
+      font-family: var(--font-display);
+      font-size: 26px;
       font-weight: 800;
       color: #fff;
       display: flex;
       align-items: baseline;
       gap: 6px;
     }
-    .metric-sub {
+    .kpi-sub {
       font-size: 11px;
-      color: var(--text-muted);
+      color: var(--text-dim);
       margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    /* Main Ops Workspace */
+    /* Workspace 2-Column Grid */
     .workspace-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -177,54 +309,116 @@
       margin-bottom: 24px;
     }
 
-    /* Graph Visualizer Panel */
+    /* Panels */
     .panel {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .panel-header {
-      padding: 16px 20px;
+      padding: 16px 24px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255, 255, 255, 0.01);
+      background: rgba(255, 255, 255, 0.015);
     }
     .panel-title {
-      font-size: 14px;
+      font-family: var(--font-display);
+      font-size: 15px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       color: #fff;
     }
-    .canvas-container {
+    .panel-title svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--cyan);
+    }
+
+    /* Topology Canvas */
+    .canvas-wrapper {
       position: relative;
       width: 100%;
-      height: 480px;
-      background: #090c14;
+      height: 520px;
+      background: #060911;
+      overflow: hidden;
     }
     canvas {
       width: 100%;
       height: 100%;
       display: block;
+      cursor: crosshair;
     }
-    .canvas-overlay {
+
+    .canvas-hud-stats {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
+      top: 14px;
+      left: 16px;
       display: flex;
       gap: 12px;
-      background: rgba(9, 12, 20, 0.7);
-      backdrop-filter: blur(6px);
-      padding: 6px 14px;
-      border-radius: 8px;
+      pointer-events: none;
+    }
+    .hud-badge {
+      background: rgba(6, 9, 17, 0.8);
       border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .hud-badge span {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      display: flex;
+      gap: 6px;
+    }
+    .ctrl-btn {
+      width: 30px;
+      height: 30px;
+      background: rgba(6, 9, 17, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--cyan);
+    }
+
+    .canvas-legend {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+      display: flex;
+      gap: 14px;
+      background: rgba(6, 9, 17, 0.85);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 8px;
       font-size: 11px;
     }
     .legend-item {
@@ -232,49 +426,65 @@
       align-items: center;
       gap: 6px;
     }
-    .dot {
-      width: 8px;
-      height: 8px;
+    .legend-dot {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
     }
 
-    /* Action Toolbar */
+    /* Canvas Action Toolbar */
     .toolbar {
-      padding: 14px 20px;
+      padding: 14px 24px;
       border-top: 1px solid var(--border);
+      background: rgba(10, 14, 23, 0.95);
       display: flex;
       gap: 12px;
-      background: rgba(14, 19, 31, 0.8);
       flex-wrap: wrap;
     }
+
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
+      padding: 11px 20px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s var(--ease-spring);
+      position: relative;
+      outline: none;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #00d2ff, #0077ff);
-      color: #fff;
-      box-shadow: 0 0 15px var(--cyan-glow);
-    }
-    .btn-primary:hover {
-      box-shadow: 0 0 25px rgba(0, 210, 255, 0.6);
-      transform: translateY(-1px);
+    .btn:active {
+      transform: scale(0.97);
     }
     .btn-danger {
-      background: linear-gradient(135deg, #ff3366, #e11d48);
+      background: linear-gradient(135deg, var(--red), #d90429);
       color: #fff;
-      box-shadow: 0 0 15px var(--red-glow);
+      box-shadow: 0 0 20px var(--red-glow);
     }
     .btn-danger:hover {
-      box-shadow: 0 0 25px rgba(255, 51, 102, 0.6);
+      box-shadow: 0 0 30px rgba(255, 42, 109, 0.7);
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0077b6);
+      color: #fff;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.7);
+      transform: translateY(-1px);
+    }
+    .btn-contain {
+      background: linear-gradient(135deg, var(--emerald), #028090);
+      color: #05070c;
+      font-weight: 700;
+      box-shadow: 0 0 20px var(--emerald-glow);
+    }
+    .btn-contain:hover {
+      box-shadow: 0 0 30px rgba(5, 255, 161, 0.7);
       transform: translateY(-1px);
     }
     .btn-secondary {
@@ -284,223 +494,445 @@
     }
     .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.25);
     }
 
     /* Sarvam AI Incident Commander Console */
-    .commander-body {
-      padding: 16px;
+    .commander-container {
       display: flex;
       flex-direction: column;
-      height: 480px;
+      height: 520px;
+      padding: 18px;
     }
-    .chat-messages {
+    .chat-history {
       flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       padding-right: 6px;
     }
-    .chat-bubble {
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .msg {
       max-width: 90%;
       padding: 12px 16px;
       border-radius: 12px;
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.6;
+      animation: fadeIn 0.3s var(--ease-spring);
     }
-    .chat-user {
+    .msg-user {
       align-self: flex-end;
-      background: rgba(0, 210, 255, 0.15);
+      background: rgba(0, 240, 255, 0.12);
       border: 1px solid var(--border-accent);
       color: #fff;
       border-bottom-right-radius: 2px;
     }
-    .chat-ai {
+    .msg-ai {
       align-self: flex-start;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.035);
       border: 1px solid var(--border);
       color: var(--text);
       border-bottom-left-radius: 2px;
     }
-    .chat-ai-header {
+    .ai-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 11px;
       font-weight: 700;
       color: var(--cyan);
       margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .voice-playback-box {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(0, 240, 255, 0.05);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    .audio-wave-anim {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      height: 18px;
+      margin-bottom: 6px;
     }
-    .audio-player-container {
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    .wave-bar {
+      width: 3px;
+      height: 100%;
+      background: var(--cyan);
+      border-radius: 2px;
+      animation: wave 1s ease-in-out infinite alternate;
     }
-    audio {
-      width: 100%;
-      height: 32px;
-      border-radius: 6px;
-      outline: none;
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.3s; }
+
+    @keyframes wave {
+      0% { height: 20%; }
+      100% { height: 100%; }
     }
 
-    /* Quick Query Chips */
-    .quick-chips {
+    /* Quick question chips */
+    .chips-carousel {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
-      padding: 8px 0;
-      margin-bottom: 8px;
+      padding: 10px 0 6px 0;
     }
-    .chip {
+    .q-chip {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 14px;
+      padding: 6px 12px;
+      border-radius: 20px;
       font-size: 11px;
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
     }
-    .chip:hover {
-      color: #fff;
+    .q-chip:hover {
+      background: rgba(0, 240, 255, 0.1);
       border-color: var(--cyan);
-      background: rgba(0, 210, 255, 0.1);
+      color: #fff;
     }
 
-    /* Chat Input Form */
-    .chat-input-form {
+    /* Chat input form */
+    .chat-form {
       display: flex;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
     .chat-input {
       flex: 1;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 12px 16px;
       color: #fff;
-      font-family: inherit;
       font-size: 13px;
       outline: none;
       transition: border-color 0.2s;
     }
     .chat-input:focus {
       border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
     }
 
-    /* Telemetry Feed Panel */
-    .telemetry-feed {
-      height: 240px;
-      overflow-y: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      padding: 12px 16px;
-      background: #06080e;
+    /* Bottom: Dual Telemetry & Containment Policy Lab */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
-    .log-line {
-      padding: 4px 0;
+
+    /* Telemetry Feed */
+    .telemetry-container {
+      height: 280px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 14px 18px;
+      background: #05080e;
+    }
+    .telemetry-row {
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       display: flex;
       gap: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      align-items: baseline;
     }
-    .log-time { color: var(--text-muted); font-size: 11px; }
-    .log-type { font-weight: 700; width: 90px; }
+    .t-time { color: var(--text-dim); font-size: 11px; }
+    .t-type { font-weight: 700; width: 95px; }
     .type-execve { color: var(--cyan); }
     .type-tcp_connect { color: var(--purple); }
     .type-file_access { color: var(--amber); }
-    .log-detail { flex: 1; color: var(--text); }
-    .log-mitre {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 2px 6px;
+    .t-detail { flex: 1; color: var(--text); }
+    .t-mitre {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 7px;
       border-radius: 4px;
       color: #cbd5e1;
       font-size: 10px;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.9); }
+    /* Policy Lab */
+    .policy-container {
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+    .policy-tabs {
+      display: flex;
+      gap: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+      background: rgba(0, 240, 255, 0.04);
+    }
+    .code-box {
+      flex: 1;
+      padding: 16px;
+      background: #05080e;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.6;
+      position: relative;
+    }
+    .copy-code-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-code-btn:hover {
+      background: var(--cyan);
+      color: #05070c;
     }
 
-    @media (max-width: 1200px) {
-      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: #0d121f;
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      max-width: 860px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      animation: modalSlide 0.3s var(--ease-spring);
+    }
+    .modal-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0d1424;
+      border: 1px solid var(--border-accent);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s var(--ease-spring);
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes modalSlide {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @media (max-width: 1280px) {
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
       .workspace-grid { grid-template-columns: 1fr; }
+      .bottom-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      header { padding: 14px 20px; }
+      .app-container { padding: 16px 20px; }
+      .scenario-bar { flex-direction: column; gap: 12px; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Top Navigation Header -->
   <header>
     <div class="brand">
-      <div class="brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
-      <div>
-        <div class="brand-title">BLAST-RADIUS CONTAINMENT ENGINE</div>
-        <div class="brand-subtitle">FinTech eBPF Telemetry & Sarvam AI Incident Commander</div>
+      <div class="brand-titles">
+        <div class="brand-main">
+          BLAST-RADIUS CONTAINMENT ENGINE
+          <span class="version-tag">v0.3.0</span>
+        </div>
+        <div class="brand-sub">FinTech eBPF Telemetry & Sarvam AI Incident Commander</div>
       </div>
     </div>
-    <div class="nav-badges">
-      <div class="badge badge-mandate">RBI / CERT-In 6-Hour SLA</div>
-      <div class="badge badge-mandate">Sarvam 105B Reasoning</div>
-      <div class="badge badge-live">SYSTEM ACTIVE</div>
+
+    <div class="header-actions">
+      <div class="status-pill active" id="sysStatePill">SYSTEM NOMINAL &bull; 0.04ms LATENCY</div>
+      <button class="btn-icon" id="btnAudioToggle" title="Toggle Sound Feedback">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </button>
+      <button class="btn-icon" id="btnResetAll" title="Reset Graph to Clean State">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
     </div>
   </header>
 
-  <div class="container">
+  <div class="app-container">
 
-    <!-- Metrics Row -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">Compromised Origin</div>
-        <div class="metric-value" id="val-entity">svc:staging-pod</div>
-        <div class="metric-sub">Supply-chain npm backdoor</div>
+    <!-- Scenario Switcher Bar -->
+    <div class="scenario-bar">
+      <div class="scenario-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Active Threat Scenario: <strong id="currentScenarioName">npm Supply-Chain Backdoor (Staging Pod)</strong></span>
       </div>
-      <div class="metric-card">
-        <div class="metric-label">Reachable Blast Radius</div>
-        <div class="metric-value"><span id="val-radius" style="color: var(--red);">8</span> <span style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Nodes</span></div>
-        <div class="metric-sub" id="val-radius-sub">Threatening UPI Ledger</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Critical Chokepoint</div>
-        <div class="metric-value" id="val-choke" style="color: var(--cyan); font-size: 18px;">svc:payment-gateway</div>
-        <div class="metric-sub">Betweenness Centrality: 2.00</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Surgical Blast Reduction</div>
-        <div class="metric-value"><span id="val-reduction" style="color: var(--emerald);">94.0%</span></div>
-        <div class="metric-sub">Under 50ms NetworkPolicy execution</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">CERT-In SLA Countdown</div>
-        <div class="metric-value" id="val-timer" style="color: var(--amber); font-family: 'JetBrains Mono', monospace;">05:58:24</div>
-        <div class="metric-sub">Sec 70B IT Act Compliance</div>
+      <div class="scenario-pills">
+        <button class="scenario-btn active" data-scenario="supply_chain_npm">1. npm Supply-Chain</button>
+        <button class="scenario-btn" data-scenario="k8s_container_breakout">2. K8s Container Escape</button>
+        <button class="scenario-btn" data-scenario="insider_threat">3. Privileged Token Exfil</button>
       </div>
     </div>
 
-    <!-- Main Grid: Graph Visualizer + Incident Commander -->
+    <!-- KPI Bento Grid -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <div class="kpi-label">Patient Zero (Origin)</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiOrigin">svc:staging-pod</div>
+        <div class="kpi-sub" id="kpiOriginSub">eBPF Execve Hook Detected</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <div class="kpi-label">Reachable Blast Radius</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <div class="kpi-value"><span id="kpiRadius" style="color: var(--red);">8</span> <span style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Nodes</span></div>
+        <div class="kpi-sub">Threatening UPI Ledger</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <div class="kpi-label">Critical Chokepoint</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiChoke" style="color: var(--cyan); font-size: 20px;">svc:payment-gateway</div>
+        <div class="kpi-sub">Betweenness: 2.00 (94% Cut)</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <div class="kpi-label">Containment Speed</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiLatency" style="color: var(--emerald);">&lt; 14.2 ms</div>
+        <div class="kpi-sub">SLA Limit: 50.0 ms (Passed)</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <div class="kpi-label">CERT-In 6h Countdown</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiTimer" style="color: var(--amber); font-family: var(--font-mono); font-size: 22px;">05:58:24</div>
+        <div class="kpi-sub">Sec 70B IT Act Compliance</div>
+      </div>
+    </div>
+
+    <!-- Main Workspace Grid -->
     <div class="workspace-grid">
 
-      <!-- Left: Interactive Graph -->
+      <!-- Left: Interactive Topology Canvas & Action Toolbar -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="12" r="3"/><path d="M8.5 7.5l7 3.5M8.5 16.5l7-3.5"/></svg>
-            Temporal Attack Graph & Blast Radius Topology
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="12" r="3"/><path d="M8.5 7.5l7 3.5M8.5 16.5l7-3.5"/></svg>
+            Dynamic Attack Graph & Blast Horizon Canvas
           </div>
-          <div id="status-tag" class="badge" style="border-color: var(--red); color: var(--red);">ATTACK IN PROGRESS</div>
+          <div class="status-pill" id="graphStateBadge" style="border-color: var(--red); color: var(--red);">ATTACK IN PROGRESS</div>
         </div>
 
-        <div class="canvas-container">
-          <canvas id="graphCanvas"></canvas>
-          <div class="canvas-overlay">
-            <div class="legend-item"><div class="dot" style="background: var(--red);"></div> Compromised Pod</div>
-            <div class="legend-item"><div class="dot" style="background: var(--cyan);"></div> Chokepoint</div>
-            <div class="legend-item"><div class="dot" style="background: var(--amber);"></div> Crown Jewel (UPI / Aadhaar)</div>
-            <div class="legend-item"><div class="dot" style="background: var(--purple);"></div> Microservice</div>
+        <div class="canvas-wrapper" id="canvasContainer">
+          <canvas id="topoCanvas"></canvas>
+
+          <div class="canvas-hud-stats">
+            <div class="hud-badge">PPR Reachability: <span id="hudReach">8 Nodes</span></div>
+            <div class="hud-badge">Crown Jewels: <span style="color: var(--amber);">UPI Ledger, Aadhaar</span></div>
+          </div>
+
+          <div class="canvas-controls">
+            <div class="ctrl-btn" id="btnZoomIn" title="Zoom In">+</div>
+            <div class="ctrl-btn" id="btnZoomOut" title="Zoom Out">&minus;</div>
+            <div class="ctrl-btn" id="btnResetView" title="Reset View">&#8635;</div>
+          </div>
+
+          <div class="canvas-legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div> Compromised Pod</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--cyan);"></div> Chokepoint</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--amber);"></div> Crown Jewel</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--purple);"></div> Microservice</div>
           </div>
         </div>
 
@@ -513,13 +945,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Compute Dijkstra & PageRank
           </button>
-          <button class="btn btn-primary" id="btnContain" style="background: linear-gradient(135deg, #10b981, #059669);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Surgical Containment (Cut Chokepoint)
+          <button class="btn btn-contain" id="btnContain">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Surgical Containment (&lt; 50ms)
           </button>
-          <button class="btn btn-secondary" id="btnReport">
+          <button class="btn btn-secondary" id="btnOpenDocket">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Generate CERT-In Report
+            CERT-In 6h Docket
           </button>
         </div>
       </div>
@@ -528,86 +960,236 @@
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Sarvam AI Incident Commander (Multilingual)
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Sarvam AI Incident Commander
           </div>
-          <div class="badge badge-mandate">Sarvam 105B + Bulbul Voice</div>
+          <div class="status-pill active" style="font-size: 10px;">SARVAM 105B REASONING</div>
         </div>
 
-        <div class="commander-body">
-          <div class="chat-messages" id="chatMessages">
-            <div class="chat-bubble chat-ai">
-              <div class="chat-ai-header">
+        <div class="commander-container">
+          <div class="chat-history" id="chatHistory">
+            <div class="msg msg-ai">
+              <div class="ai-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
                 SARVAM AI COMMANDER (Hinglish/English)
               </div>
-              Namaste. Main Incident Commander AI hoon. System par eBPF kernel telemetry live moniter ho rahi hai. 
-              Aap blast radius, attack routes ya containment commands ke baare mein pooch sakte hain.
+              Namaste. Main aapka Incident Commander AI hoon. eBPF kernel telemetry stream live hai. 
+              Aap blast radius, attack routes, crown jewels impact ya surgical containment ke baare mein Hindi, Hinglish ya English mein pooch sakte hain.
             </div>
           </div>
 
-          <div class="quick-chips">
-            <div class="chip" onclick="sendQuickQuery('Payment gateway pod mein kya compromise hua hai aur iska blast radius kya hai?')">Payment Gateway Status?</div>
-            <div class="chip" onclick="sendQuickQuery('Chokepoint isolate karne ke baad production checkout live rahega ya nahi?')">Checkout Impact?</div>
-            <div class="chip" onclick="sendQuickQuery('Isolate karne ke liye Linux iptables aur Kubernetes NetworkPolicy commands bataiye.')">Containment Commands?</div>
+          <div class="chips-carousel">
+            <div class="q-chip" onclick="handleChip('Payment gateway pod mein kya compromise hua hai aur iska blast radius kya hai?')">Payment Gateway Status?</div>
+            <div class="q-chip" onclick="handleChip('Chokepoint isolate karne ke baad production checkout live rahega ya nahi?')">Checkout Impact?</div>
+            <div class="q-chip" onclick="handleChip('CERT-In regulatory deadline kab tak hai aur report kaise download karein?')">CERT-In SLA?</div>
+            <div class="q-chip" onclick="handleChip('Kubernetes NetworkPolicy aur iptables containment execute karne ka exact command dijiye.')">Containment Script?</div>
           </div>
 
-          <form class="chat-input-form" id="chatForm">
+          <form class="chat-form" id="chatForm">
             <input type="text" class="chat-input" id="chatInput" placeholder="Ask in Hindi, Hinglish, or English..." required autocomplete="off">
-            <button type="submit" class="btn btn-primary" id="btnSend">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <button type="submit" class="btn btn-primary" style="padding: 0 18px;" id="btnChatSend">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- Bottom: Real-Time Kernel eBPF Telemetry Stream -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="4 17 10 11 14 15 20 9"/><polyline points="14 9 20 9 20 15"/></svg>
-          Real-Time Kernel eBPF Telemetry Stream (Cilium Tetragon Compatible)
+    <!-- Bottom: Dual Kernel eBPF Stream & Containment Lab -->
+    <div class="bottom-grid">
+
+      <!-- Real-Time Kernel eBPF Telemetry -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="4 17 10 11 14 15 20 9"/><polyline points="14 9 20 9 20 15"/></svg>
+            Cilium Tetragon eBPF Kernel Syscall Stream
+          </div>
+          <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">Events Ingested: <span id="eventCountBadge">6</span></div>
         </div>
-        <div style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Raw Syscall Envelopes Ingested: <span id="eventCount">6</span></div>
+        <div class="telemetry-container" id="telemetryFeed">
+          <!-- Dynamic Syscall logs -->
+        </div>
       </div>
-      <div class="telemetry-feed" id="telemetryFeed">
-        <!-- Event lines inserted here -->
+
+      <!-- Containment Lab (K8s & Linux iptables) -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Surgical Containment Enforcement Lab (&lt; 50ms)
+          </div>
+          <div class="status-pill active" id="policyState">READY TO APPLY</div>
+        </div>
+
+        <div class="policy-container">
+          <div class="policy-tabs">
+            <button class="tab-btn active" data-tab="k8s">Kubernetes NetworkPolicy</button>
+            <button class="tab-btn" data-tab="iptables">Linux iptables</button>
+            <button class="tab-btn" data-tab="benchmark">Latency Benchmarks</button>
+          </div>
+          <div class="code-box" id="policyCodeBox">
+            <button class="copy-code-btn" id="btnCopyCode">Copy Snippet</button>
+            <pre><code id="codeContent">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate-payment-gateway-blast-radius
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: payment-gateway
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress: []
+  egress: []</code></pre>
+          </div>
+        </div>
       </div>
+
     </div>
 
   </div>
 
+  <!-- CERT-In 6-Hour SLA Modal -->
+  <div class="modal-backdrop" id="docketModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div style="font-family: var(--font-display); font-size: 16px; font-weight: 700;">CERT-In Mandatory 6-Hour Disclosure Docket</div>
+        </div>
+        <button class="btn-icon" id="btnCloseDocket">&times;</button>
+      </div>
+      <div class="modal-body" id="docketModalBody">
+        <p style="color: var(--text-muted);">Generating docket preview...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Node Inspector Modal -->
+  <div class="modal-backdrop" id="nodeModal">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="legend-dot" id="nodeModalDot" style="background: var(--cyan); width: 12px; height: 12px;"></div>
+          <div style="font-family: var(--font-display); font-size: 16px; font-weight: 700;" id="nodeModalTitle">Node Inspection</div>
+        </div>
+        <button class="btn-icon" id="btnCloseNodeModal">&times;</button>
+      </div>
+      <div class="modal-body" id="nodeModalBody">
+        <!-- Node details filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMsg">Action executed successfully</span>
+  </div>
+
   <script>
+    // Audio Synthesizer (Taste-Craft Sound Engineering)
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      }
+      playClick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+      playAlarm() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(880, this.ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.25);
+      }
+      playShield() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+      }
+    }
+    const sound = new SoundEngine();
+
+    // Toggle Audio
+    document.getElementById('btnAudioToggle').addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      showToast(sound.enabled ? "Tactile audio feedback enabled" : "Audio muted");
+    });
+
+    // Toast Manager
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
     // Canvas Graph Engine
-    const canvas = document.getElementById('graphCanvas');
+    const canvas = document.getElementById('topoCanvas');
     const ctx = canvas.getContext('2d');
     let width, height;
-
-    function resize() {
-      width = canvas.parentElement.clientWidth;
-      height = canvas.parentElement.clientHeight;
-      canvas.width = width * window.devicePixelRatio;
-      canvas.height = height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    let zoomLevel = 1.0;
+    let isContained = false;
+    let animPulse = 0;
 
     // Node definitions
-    const nodes = {
-      'svc:staging-pod': { x: 0.15, y: 0.5, label: 'staging-pod', type: 'compromised', r: 16 },
-      'svc:payment-gateway': { x: 0.45, y: 0.35, label: 'payment-gateway', type: 'chokepoint', r: 18 },
-      'svc:checkout': { x: 0.45, y: 0.65, label: 'checkout', type: 'service', r: 15 },
-      'svc:inventory': { x: 0.45, y: 0.85, label: 'inventory', type: 'service', r: 14 },
-      'svc:user-service': { x: 0.65, y: 0.65, label: 'user-service', type: 'service', r: 14 },
-      'db:upi-ledger': { x: 0.82, y: 0.3, label: 'UPI-LEDGER', type: 'crown_jewel', r: 20 },
-      'db:aadhaar-vault': { x: 0.85, y: 0.65, label: 'AADHAAR-VAULT', type: 'crown_jewel', r: 20 },
-      'bucket:backup-bucket': { x: 0.68, y: 0.15, label: 's3:backup', type: 'bucket', r: 14 },
-      'bucket:secrets-store': { x: 0.68, y: 0.9, label: 's3:secrets', type: 'bucket', r: 14 }
+    let graphNodes = {
+      'svc:staging-pod': { x: 0.14, y: 0.5, label: 'staging-pod', type: 'compromised', r: 18 },
+      'svc:payment-gateway': { x: 0.44, y: 0.34, label: 'payment-gateway', type: 'chokepoint', r: 20 },
+      'svc:checkout': { x: 0.44, y: 0.66, label: 'checkout', type: 'service', r: 16 },
+      'svc:inventory': { x: 0.44, y: 0.86, label: 'inventory', type: 'service', r: 15 },
+      'svc:user-service': { x: 0.66, y: 0.66, label: 'user-service', type: 'service', r: 15 },
+      'db:upi-ledger': { x: 0.84, y: 0.28, label: 'UPI-LEDGER', type: 'crown_jewel', r: 22 },
+      'db:aadhaar-vault': { x: 0.86, y: 0.66, label: 'AADHAAR-VAULT', type: 'crown_jewel', r: 22 },
+      'bucket:backup-bucket': { x: 0.68, y: 0.14, label: 's3:backup', type: 'bucket', r: 15 },
+      'bucket:secrets-store': { x: 0.68, y: 0.90, label: 's3:secrets', type: 'bucket', r: 15 }
     };
 
-    let edges = [
+    let graphEdges = [
       { u: 'svc:staging-pod', v: 'svc:payment-gateway', kind: 'executes' },
       { u: 'svc:staging-pod', v: 'svc:checkout', kind: 'executes' },
       { u: 'svc:payment-gateway', v: 'db:upi-ledger', kind: 'connects_to' },
@@ -619,17 +1201,32 @@
       { u: 'svc:payment-gateway', v: 'svc:inventory', kind: 'executes' }
     ];
 
-    let isContained = false;
-    let animPulse = 0;
+    function resize() {
+      const container = document.getElementById('canvasContainer');
+      width = container.clientWidth;
+      height = container.clientHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
+    // Canvas Render Loop
     function renderGraph() {
       ctx.clearRect(0, 0, width, height);
-      animPulse += 0.04;
+      animPulse += 0.035;
+
+      ctx.save();
+      // Center scale
+      ctx.translate(width / 2, height / 2);
+      ctx.scale(zoomLevel, zoomLevel);
+      ctx.translate(-width / 2, -height / 2);
 
       // Draw Edges
-      edges.forEach((edge, idx) => {
-        const u = nodes[edge.u];
-        const v = nodes[edge.v];
+      graphEdges.forEach((edge, idx) => {
+        const u = graphNodes[edge.u];
+        const v = graphNodes[edge.v];
         if (!u || !v) return;
 
         const x1 = u.x * width, y1 = u.y * height;
@@ -639,8 +1236,9 @@
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         
-        if (edge.u === 'svc:staging-pod' || edge.v === 'db:upi-ledger') {
-          ctx.strokeStyle = 'rgba(255, 51, 102, 0.6)';
+        const isThreatRoute = (edge.u === 'svc:staging-pod' || edge.v === 'db:upi-ledger' || edge.v === 'db:aadhaar-vault');
+        if (isThreatRoute && !isContained) {
+          ctx.strokeStyle = 'rgba(255, 42, 109, 0.65)';
           ctx.lineWidth = 2.5;
         } else {
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
@@ -648,46 +1246,59 @@
         }
         ctx.stroke();
 
-        // Draw animated traveling particles
-        const t = (animPulse + idx * 0.25) % 1;
-        const px = x1 + (x2 - x1) * t;
-        const py = y1 + (y2 - y1) * t;
-        ctx.beginPath();
-        ctx.arc(px, py, 3, 0, Math.PI * 2);
-        ctx.fillStyle = edge.u === 'svc:staging-pod' ? '#ff3366' : '#00d2ff';
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.shadowBlur = 8;
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        // Traveling animated laser particles
+        if (!isContained || (!edge.u.includes('payment-gateway') && !edge.v.includes('payment-gateway'))) {
+          const t = (animPulse + idx * 0.22) % 1;
+          const px = x1 + (x2 - x1) * t;
+          const py = y1 + (y2 - y1) * t;
+          ctx.beginPath();
+          ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+          ctx.fillStyle = isThreatRoute ? '#ff2a6d' : '#00f0ff';
+          ctx.shadowColor = ctx.fillStyle;
+          ctx.shadowBlur = 10;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
       });
 
       // Draw Nodes
-      Object.entries(nodes).forEach(([id, n]) => {
+      Object.entries(graphNodes).forEach(([id, n]) => {
         const nx = n.x * width;
         const ny = n.y * height;
+
+        // Draw containment shield ring if contained and chokepoint
+        if (isContained && n.type === 'chokepoint') {
+          ctx.beginPath();
+          ctx.arc(nx, ny, n.r + 14 + Math.sin(animPulse * 3) * 3, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(5, 255, 161, 0.7)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 6]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
 
         ctx.beginPath();
         ctx.arc(nx, ny, n.r, 0, Math.PI * 2);
 
         if (n.type === 'compromised') {
-          ctx.fillStyle = '#ff3366';
-          ctx.shadowColor = 'rgba(255, 51, 102, 0.8)';
-          ctx.shadowBlur = 15 + Math.sin(animPulse * 3) * 6;
+          ctx.fillStyle = '#ff2a6d';
+          ctx.shadowColor = 'rgba(255, 42, 109, 0.9)';
+          ctx.shadowBlur = 18 + Math.sin(animPulse * 3) * 6;
         } else if (n.type === 'chokepoint') {
           if (isContained) {
-            ctx.fillStyle = '#10b981';
-            ctx.shadowColor = 'rgba(16, 185, 129, 0.8)';
+            ctx.fillStyle = '#05ffa1';
+            ctx.shadowColor = 'rgba(5, 255, 161, 0.9)';
           } else {
-            ctx.fillStyle = '#00d2ff';
-            ctx.shadowColor = 'rgba(0, 210, 255, 0.8)';
+            ctx.fillStyle = '#00f0ff';
+            ctx.shadowColor = 'rgba(0, 240, 255, 0.9)';
           }
-          ctx.shadowBlur = 16 + Math.sin(animPulse * 2) * 5;
+          ctx.shadowBlur = 20 + Math.sin(animPulse * 2.5) * 5;
         } else if (n.type === 'crown_jewel') {
-          ctx.fillStyle = '#f59e0b';
-          ctx.shadowColor = 'rgba(245, 158, 11, 0.8)';
-          ctx.shadowBlur = 18;
+          ctx.fillStyle = '#ffb703';
+          ctx.shadowColor = 'rgba(255, 183, 3, 0.85)';
+          ctx.shadowBlur = 20;
         } else {
-          ctx.fillStyle = '#8b5cf6';
+          ctx.fillStyle = '#9d4edd';
           ctx.shadowColor = 'transparent';
           ctx.shadowBlur = 0;
         }
@@ -696,135 +1307,372 @@
 
         // Border ring
         ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1.8;
         ctx.stroke();
 
-        // Label
+        // Node Label
         ctx.font = '600 11px Inter, sans-serif';
-        ctx.fillStyle = '#f1f5f9';
+        ctx.fillStyle = '#f8fafc';
         ctx.textAlign = 'center';
         ctx.fillText(n.label, nx, ny + n.r + 14);
       });
 
+      ctx.restore();
       requestAnimationFrame(renderGraph);
     }
     requestAnimationFrame(renderGraph);
 
-    // Initial Telemetry Feed
+    // Zoom and pan controls
+    document.getElementById('btnZoomIn').addEventListener('click', () => { zoomLevel = Math.min(zoomLevel + 0.15, 2.0); sound.playClick(); });
+    document.getElementById('btnZoomOut').addEventListener('click', () => { zoomLevel = Math.max(zoomLevel - 0.15, 0.6); sound.playClick(); });
+    document.getElementById('btnResetView').addEventListener('click', () => { zoomLevel = 1.0; sound.playClick(); });
+
+    // Node Inspect Click on Canvas
+    canvas.addEventListener('click', async (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = (e.clientX - rect.left);
+      const clickY = (e.clientY - rect.top);
+
+      for (const [id, n] of Object.entries(graphNodes)) {
+        const nx = n.x * width;
+        const ny = n.y * height;
+        const dist = Math.hypot(clickX - nx, clickY - ny);
+        if (dist <= n.r + 8) {
+          sound.playClick();
+          openNodeModal(id);
+          break;
+        }
+      }
+    });
+
+    async function openNodeModal(nodeId) {
+      const modal = document.getElementById('nodeModal');
+      const body = document.getElementById('nodeModalBody');
+      const title = document.getElementById('nodeModalTitle');
+      const dot = document.getElementById('nodeModalDot');
+
+      title.textContent = `Inspecting Node: ${nodeId}`;
+      body.innerHTML = `<p style="color: var(--text-muted);">Fetching node metadata...</p>`;
+      modal.classList.add('open');
+
+      try {
+        const res = await fetch(`/api/node/${encodeURIComponent(nodeId)}`);
+        const data = await res.json();
+        
+        dot.style.background = data.is_compromised ? 'var(--red)' : (data.is_crown_jewel ? 'var(--amber)' : (data.is_chokepoint ? 'var(--cyan)' : 'var(--purple)'));
+
+        body.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+            <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Node Classification</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px;">${data.classification}</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">PPR Threat Score</div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--cyan); margin-top: 4px;">${data.risk_score.toFixed(4)}</div>
+            </div>
+          </div>
+          
+          <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Outbound Reachable Edges:</div>
+          <div style="background: #05080e; padding: 10px 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: #e2e8f0; margin-bottom: 16px;">
+            ${data.outbound_edges.length ? data.outbound_edges.join(' &rarr; ') : 'None (Terminal Leaf)'}
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Inbound Dependency Links:</div>
+          <div style="background: #05080e; padding: 10px 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: #e2e8f0;">
+            ${data.inbound_edges.length ? data.inbound_edges.join(', ') : 'None'}
+          </div>
+        `;
+      } catch (err) {
+        body.innerHTML = `<p style="color: var(--red);">Error loading node details.</p>`;
+      }
+    }
+    document.getElementById('btnCloseNodeModal').addEventListener('click', () => {
+      document.getElementById('nodeModal').classList.remove('open');
+    });
+
+    // Initial Telemetry logs
     const feed = document.getElementById('telemetryFeed');
     const initialLogs = [
-      { t: '18:45:40', type: 'EXECVE', comm: 'npm', detail: 'install -g malicious-pkg', mitre: 'T1059.004' },
-      { t: '18:45:40', type: 'EXECVE', comm: 'node', detail: 'server.js', mitre: 'T1078' },
-      { t: '18:45:40', type: 'TCP_CONNECT', comm: 'curl', detail: 'connect -> 10.0.0.5:5432', mitre: 'T1021.002' },
-      { t: '18:45:40', type: 'FILE_ACCESS', comm: 'cat', detail: 'read -> /vault/credentials/.pem', mitre: 'T1552' },
-      { t: '18:45:40', type: 'TCP_CONNECT', comm: 'psql', detail: 'connect -> db:upi-ledger:5432', mitre: 'T1021.002' },
-      { t: '18:45:40', type: 'FILE_ACCESS', comm: 'aws', detail: 's3 cp -> /backup-bucket/pii_ledger.csv', mitre: 'T1567' }
+      { t: '14:20:11', type: 'EXECVE', comm: 'npm', detail: 'install -g express-validator-patch', mitre: 'T1059.004' },
+      { t: '14:20:11', type: 'EXECVE', comm: 'node', detail: 'server.js', mitre: 'T1078' },
+      { t: '14:20:11', type: 'TCP_CONNECT', comm: 'curl', detail: 'connect -> 10.0.0.5:5432', mitre: 'T1021.002' },
+      { t: '14:20:11', type: 'FILE_ACCESS', comm: 'cat', detail: 'read -> /vault/credentials/.pem', mitre: 'T1552' },
+      { t: '14:20:11', type: 'TCP_CONNECT', comm: 'psql', detail: 'connect -> db:upi-ledger:5432', mitre: 'T1021.002' },
+      { t: '14:20:11', type: 'FILE_ACCESS', comm: 'aws', detail: 's3 cp -> /backup-bucket/pii_ledger.csv', mitre: 'T1567' }
     ];
 
     function renderFeed(logs) {
       feed.innerHTML = logs.map(l => `
-        <div class="log-line">
-          <span class="log-time">${l.t}</span>
-          <span class="log-type type-${l.type.toLowerCase()}">${l.type}</span>
-          <span class="log-detail"><strong>${l.comm}</strong>: ${l.detail}</span>
-          <span class="log-mitre">${l.mitre}</span>
+        <div class="telemetry-row">
+          <span class="t-time">${l.t || '14:20:11'}</span>
+          <span class="t-type type-${(l.type || 'EXECVE').toLowerCase()}">${l.type}</span>
+          <span class="t-detail"><strong>${l.comm || 'proc'}</strong>: ${l.detail || l.target || (l.path || l.dst || '')}</span>
+          <span class="t-mitre">${l.mitre || l.mitre_technique || 'T1059'}</span>
         </div>
       `).join('');
+      feed.scrollTop = feed.scrollHeight;
+      document.getElementById('eventCountBadge').textContent = logs.length;
     }
     renderFeed(initialLogs);
 
-    // Action Handlers
-    document.getElementById('btnSimulate').addEventListener('click', async () => {
-      isContained = false;
-      document.getElementById('status-tag').textContent = 'ATTACK IN PROGRESS';
-      document.getElementById('status-tag').style.borderColor = 'var(--red)';
-      document.getElementById('status-tag').style.color = 'var(--red)';
-      document.getElementById('val-radius').textContent = '8';
-      document.getElementById('val-radius').style.color = 'var(--red)';
-      
-      const res = await fetch('/api/simulate-attack', { method: 'POST' });
-      const data = await res.json();
-      
-      addChatMessage('ai', `🚨 **Attack Simulation Completed:** ${data.events_count} eBPF events captured. Staging pod compromised. Critical blast radius: 8 nodes.`);
+    // Scenario Switcher Buttons
+    document.querySelectorAll('.scenario-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const scenario = btn.dataset.scenario;
+        document.getElementById('currentScenarioName').textContent = btn.textContent;
+        sound.playClick();
+        triggerSimulation(scenario);
+      });
     });
 
+    // Trigger Simulation Handler
+    async function triggerSimulation(scenario = 'supply_chain_npm') {
+      sound.playAlarm();
+      isContained = false;
+      document.getElementById('graphStateBadge').textContent = 'ATTACK IN PROGRESS';
+      document.getElementById('graphStateBadge').style.borderColor = 'var(--red)';
+      document.getElementById('graphStateBadge').style.color = 'var(--red)';
+      document.getElementById('sysStatePill').textContent = 'ANOMALY DETECTED • LIVE INCIDENT';
+      document.getElementById('sysStatePill').style.borderColor = 'rgba(255, 42, 109, 0.4)';
+      document.getElementById('sysStatePill').style.color = 'var(--red)';
+
+      const res = await fetch('/api/simulate-attack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario })
+      });
+      const data = await res.json();
+
+      document.getElementById('kpiOrigin').textContent = data.alert.entity;
+      document.getElementById('kpiRadius').textContent = data.alert.blast_radius;
+      document.getElementById('kpiRadius').style.color = 'var(--red)';
+      document.getElementById('hudReach').textContent = `${data.alert.blast_radius} Nodes`;
+
+      if (data.events && data.events.length) {
+        renderFeed(data.events.map(e => ({
+          t: new Date(e.ts * 1000).toLocaleTimeString(),
+          type: e.type,
+          comm: e.comm,
+          detail: e.args ? e.args.join(' ') : (e.dst || e.path),
+          mitre: e.mitre_technique || 'T1059'
+        })));
+      }
+
+      addChatMessage('ai', `🚨 **Threat Triggered [${data.scenario}]:**\n${data.alert.title} on \`${data.alert.entity}\`.\nReachable blast radius: **${data.alert.blast_radius} nodes** threatening Crown Jewels.`);
+      showToast(`Simulated attack scenario: ${data.scenario}`);
+    }
+
+    document.getElementById('btnSimulate').addEventListener('click', () => {
+      const activeScenario = document.querySelector('.scenario-btn.active').dataset.scenario;
+      triggerSimulation(activeScenario);
+    });
+
+    // Compute Dijkstra & PageRank
     document.getElementById('btnAnalyze').addEventListener('click', async () => {
+      sound.playClick();
       const res = await fetch('/api/analyze', { method: 'POST' });
       const data = await res.json();
+
+      document.getElementById('kpiChoke').textContent = data.chokepoint ? data.chokepoint.node_id : 'None';
+
+      addChatMessage('ai', `📊 **Graph Analytics Execution Complete:**\n` +
+        `- Yen's K-Shortest Paths: ${data.attack_paths.length} direct routes to Crown Jewels\n` +
+        `- Structural Chokepoint: \`${data.chokepoint.node_id}\`\n` +
+        `- Betweenness Centrality: ${data.chokepoint.betweenness.toFixed(2)}\n` +
+        `- Isolation will reduce blast footprint by **${data.chokepoint.blast_reduction_pct.toFixed(1)}%**`);
       
-      addChatMessage('ai', `📊 **Graph Analytics Complete:**\n` +
-        `- Yen's K-Shortest Paths: 3 direct attack routes to UPI Ledger\n` +
-        `- Critical Chokepoint: \`${data.chokepoint.node_id}\`\n` +
-        `- Structural Betweenness Centrality: ${data.chokepoint.betweenness.toFixed(2)}`);
+      showToast("Dijkstra & Personalized PageRank computed");
     });
 
+    // Surgical Containment Execution
     document.getElementById('btnContain').addEventListener('click', async () => {
+      sound.playShield();
       const res = await fetch('/api/contain', { method: 'POST' });
       const data = await res.json();
-      
+
       isContained = true;
-      edges = edges.filter(e => e.u !== 'svc:payment-gateway' && e.v !== 'svc:payment-gateway');
-      
-      document.getElementById('status-tag').textContent = 'CONTAINMENT APPLIED';
-      document.getElementById('status-tag').style.borderColor = 'var(--emerald)';
-      document.getElementById('status-tag').style.color = 'var(--emerald)';
-      document.getElementById('val-radius').textContent = '0 (Isolated)';
-      document.getElementById('val-radius').style.color = 'var(--emerald)';
-      document.getElementById('val-reduction').textContent = '94.0%';
-      
-      addChatMessage('ai', `🛡️ **Surgical Containment Enacted (< 50ms):**\n` +
-        `- Node \`${data.chokepoint}\` has been isolated.\n` +
-        `- Linux iptables rule injected: \`${data.iptables_rule}\`\n` +
-        `- Blast radius severed by ${data.reduction_pct}%. Core ledger secured.`);
+      document.getElementById('graphStateBadge').textContent = 'CONTAINMENT APPLIED';
+      document.getElementById('graphStateBadge').style.borderColor = 'var(--emerald)';
+      document.getElementById('graphStateBadge').style.color = 'var(--emerald)';
+      document.getElementById('sysStatePill').textContent = 'BREACH CONTAINED • ZERO LEAKAGE';
+      document.getElementById('sysStatePill').style.borderColor = 'rgba(5, 255, 161, 0.4)';
+      document.getElementById('sysStatePill').style.color = 'var(--emerald)';
+
+      document.getElementById('kpiRadius').textContent = '0 (Isolated)';
+      document.getElementById('kpiRadius').style.color = 'var(--emerald)';
+      document.getElementById('kpiLatency').textContent = `${data.execution_latency_ms} ms`;
+      document.getElementById('hudReach').textContent = '0 Nodes (Secured)';
+      document.getElementById('policyState').textContent = 'APPLIED TO CLUSTER';
+
+      // Update code snippet box
+      document.getElementById('codeContent').textContent = data.k8s_network_policy;
+
+      addChatMessage('ai', `🛡️ **Surgical Containment Enacted in ${data.execution_latency_ms} ms:**\n` +
+        `- Chokepoint \`${data.chokepoint}\` isolated via Kubernetes NetworkPolicy.\n` +
+        `- Linux iptables injection executed: \`${data.iptables_rule}\`\n` +
+        `- Core UPI Ledger protected. Production checkout unaffected.`);
+
+      showToast(`Containment executed in ${data.execution_latency_ms}ms!`);
     });
 
-    document.getElementById('btnReport').addEventListener('click', async () => {
+    // Reset All
+    document.getElementById('btnResetAll').addEventListener('click', async () => {
+      sound.playClick();
+      await fetch('/api/reset', { method: 'POST' });
+      isContained = false;
+      document.getElementById('graphStateBadge').textContent = 'SYSTEM RESET';
+      document.getElementById('graphStateBadge').style.borderColor = 'var(--border)';
+      document.getElementById('graphStateBadge').style.color = 'var(--text-muted)';
+      document.getElementById('kpiRadius').textContent = '8';
+      document.getElementById('kpiRadius').style.color = 'var(--text-muted)';
+      document.getElementById('sysStatePill').textContent = 'SYSTEM NOMINAL • 0.04ms LATENCY';
+      document.getElementById('sysStatePill').style.borderColor = 'rgba(5, 255, 161, 0.35)';
+      document.getElementById('sysStatePill').style.color = 'var(--emerald)';
+      addChatMessage('ai', "System topology restored to clean state.");
+      showToast("Graph topology reset successfully");
+    });
+
+    // Policy Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        sound.playClick();
+
+        const tab = btn.dataset.tab;
+        const code = document.getElementById('codeContent');
+
+        if (tab === 'k8s') {
+          code.textContent = `apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate-payment-gateway-blast-radius
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: payment-gateway
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress: []
+  egress: []`;
+        } else if (tab === 'iptables') {
+          code.textContent = `# Atomic packet drop rule applied to Linux kernel network stack
+iptables -I FORWARD 1 -m comment --comment 'BLAST-RADIUS-ISOLATE' -d payment-gateway.internal -j DROP
+
+# Verification query:
+iptables -L FORWARD -v -n --line-numbers | grep BLAST-RADIUS-ISOLATE`;
+        } else if (tab === 'benchmark') {
+          const res = await fetch('/api/benchmark');
+          const data = await res.json();
+          code.textContent = JSON.stringify(data, null, 2);
+        }
+      });
+    });
+
+    // Copy Code Snippet
+    document.getElementById('btnCopyCode').addEventListener('click', () => {
+      const text = document.getElementById('codeContent').textContent;
+      navigator.clipboard.writeText(text);
+      sound.playClick();
+      showToast("Policy snippet copied to clipboard");
+    });
+
+    // CERT-In Docket Modal
+    document.getElementById('btnOpenDocket').addEventListener('click', async () => {
+      sound.playClick();
+      const modal = document.getElementById('docketModal');
+      const body = document.getElementById('docketModalBody');
+      modal.classList.add('open');
+
       const res = await fetch('/api/report/cert-in', { method: 'POST' });
       const data = await res.json();
-      
-      addChatMessage('ai', `📄 **CERT-In 6-Hour Disclosure Report Docket Generated:**\n` +
-        `- Incident ID: \`${data.incident_id}\`\n` +
-        `- Strict Reporting SLA: \`${data.disclosure_deadline}\`\n` +
-        `<a href="${data.report_url}" target="_blank" style="color: var(--cyan); text-decoration: underline; font-weight: 600;">Click to view printable CERT-In PDF/HTML Docket &rarr;</a>`);
+
+      body.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 20px;">
+          <div>
+            <div style="font-size: 18px; font-weight: 800; color: #fff;">${data.incident_id}</div>
+            <div style="font-size: 12px; color: var(--amber); margin-top: 4px;">Mandatory 6-Hour Reporting SLA: ${data.disclosure_deadline}</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <a href="${data.report_url}" target="_blank" class="btn btn-primary" style="font-size: 12px; padding: 6px 14px; text-decoration: none;">View Print-Ready Docket</a>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+          <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Compromised Asset</div>
+            <div style="font-size: 14px; font-weight: 700; color: #fff; margin-top: 4px;"><code>${data.data.entity}</code></div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Affected Services</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--red); margin-top: 4px;">${data.data.blast_radius_services} Microservices</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Isolation Chokepoint</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--cyan); margin-top: 4px;"><code>${data.data.chokepoint_node}</code></div>
+          </div>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">HMAC-SHA256 Cryptographic Chain Signature:</div>
+        <div style="background: #05080e; padding: 10px 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--cyan); word-break: break-all;">
+          ${data.data.chain_hash}
+        </div>
+      `;
+    });
+    document.getElementById('btnCloseDocket').addEventListener('click', () => {
+      document.getElementById('docketModal').classList.remove('open');
     });
 
     // Chat Controller
     const chatForm = document.getElementById('chatForm');
     const chatInput = document.getElementById('chatInput');
-    const chatMessages = document.getElementById('chatMessages');
+    const chatHistory = document.getElementById('chatHistory');
 
     function addChatMessage(sender, text, audioUrl = null) {
-      const b = document.createElement('div');
-      b.className = `chat-bubble chat-${sender}`;
-      
+      const m = document.createElement('div');
+      m.className = `msg msg-${sender}`;
+
       if (sender === 'ai') {
-        b.innerHTML = `
-          <div class="chat-ai-header">
+        m.innerHTML = `
+          <div class="ai-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
             SARVAM AI COMMANDER
           </div>
           <div>${text.replace(/\n/g, '<br>')}</div>
         `;
         if (audioUrl) {
-          b.innerHTML += `
-            <div class="audio-player-container">
-              <div style="font-size: 10px; color: var(--cyan); margin-bottom: 4px; font-weight: 600;">🔊 Sarvam Bulbul Voice Alert Playback:</div>
-              <audio controls autoplay src="${audioUrl}"></audio>
+          m.innerHTML += `
+            <div class="voice-playback-box">
+              <div class="audio-wave-anim">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <span style="font-size: 11px; color: var(--cyan); font-weight: 600; margin-left: 6px;">Sarvam Bulbul TTS Voice Alert:</span>
+              </div>
+              <audio controls autoplay src="${audioUrl}" style="width: 100%; height: 32px;"></audio>
             </div>
           `;
         }
       } else {
-        b.textContent = text;
+        m.textContent = text;
       }
 
-      chatMessages.appendChild(b);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      chatHistory.appendChild(m);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
     }
 
-    async function handleQuery(queryText) {
+    async function sendQuery(queryText) {
+      sound.playClick();
       addChatMessage('user', queryText);
       chatInput.value = '';
-      
+
       try {
         const res = await fetch('/api/commander/query', {
           method: 'POST',
@@ -834,19 +1682,29 @@
         const data = await res.json();
         addChatMessage('ai', data.response, data.audio_url);
       } catch (err) {
-        addChatMessage('ai', 'Error contacting Sarvam AI Incident Commander backend.');
+        addChatMessage('ai', 'Error connecting to Sarvam AI Commander backend.');
       }
     }
 
     chatForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const val = chatInput.value.trim();
-      if (val) handleQuery(val);
+      if (val) sendQuery(val);
     });
 
-    window.sendQuickQuery = function(text) {
-      handleQuery(text);
+    window.handleChip = function(txt) {
+      sendQuery(txt);
     };
+
+    // Countdown Timer (CERT-In 6 Hours)
+    let timeLeft = 6 * 3600 - 96;
+    setInterval(() => {
+      if (timeLeft > 0) timeLeft--;
+      const hrs = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
+      const secs = String(timeLeft % 60).padStart(2, '0');
+      document.getElementById('kpiTimer').textContent = `${hrs}:${mins}:${secs}`;
+    }, 1000);
   </script>
 </body>
 </html>

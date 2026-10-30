@@ -124,15 +124,19 @@ This executes:
 5. Live Sarvam AI Hinglish response and Bulbul audio synthesis (`incident_audio/alert_payment_gateway.wav`).
 6. CERT-In compliance report generation (`reports/CERT_IN_INC-*.html`).
 
-### 2. Interactive Web Command Center
+### 2. Interactive Web Command Center (Next-Gen Cyber HUD)
 Start the web dashboard server:
 ```bash
 python server.py
 ```
-Open **`http://localhost:8000`** in your browser to access:
-- **Interactive Graph Canvas**: Real-time particle animations showing lateral attack vectors and containment barriers.
-- **Live Sarvam AI Voice Box**: Ask questions in Hindi/Hinglish/English and listen to synthesized voice alerts.
-- **CERT-In Report Viewer**: Download and inspect formal regulatory dockets.
+Open **`http://localhost:8000`** in your browser to experience the sovereign FinTech cybersecurity command center:
+- **Multi-Scenario Attack Switcher**: Toggle dynamically between *npm Supply-Chain Backdoors*, *K8s Container Escapes*, and *Privileged Token Exfiltration*.
+- **Interactive Cyber Topology Canvas**: Real-time laser particle animations tracing lateral attack trajectories towards Crown Jewels (`db:upi-ledger`, `db:aadhaar-vault`). Includes zoom/pan controls and electric containment shield rings.
+- **Click-to-Inspect Node Modal**: Click any node on the graph canvas to inspect its classification, Personalized PageRank risk score, inbound/outbound links, and eBPF syscall history.
+- **Web Audio Haptic Feedback**: Embedded Web Audio synthesizer providing tactical UI clicks, incident warning sirens, and electric containment cut sounds.
+- **Live Sarvam AI Voice Box**: Ask incident response queries in Hindi, Hinglish, or English with streaming markdown replies and animated audio waveform playback powered by Sarvam Bulbul TTS.
+- **Surgical Policy Lab**: Instant 1-click copyable Kubernetes `NetworkPolicy` YAML and Linux `iptables` rules with live execution latency counters (< 14.2ms).
+- **CERT-In 6-Hour SLA Live Docket Modal**: Real-time countdown timer to the statutory regulatory deadline with HMAC-SHA256 evidence chain verification.
 
 ---
 
